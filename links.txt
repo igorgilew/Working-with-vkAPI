@@ -1,0 +1,7 @@
+https://metanit.com/sharp/net/2.2.php
+https://habr.com/post/314518/
+
+//методы для работы с товарами
+https://vk.com/dev/market
+//получение ключа доступа
+https://vk.com/dev/access_token

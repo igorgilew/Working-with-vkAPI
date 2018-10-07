@@ -1,0 +1,2 @@
+AppID = 6713924
+secretKey = pSTDIKfuOtV91baUz0ov
