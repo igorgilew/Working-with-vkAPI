@@ -11,11 +11,13 @@
             <RowDefinition Height="62*"/>
             <RowDefinition Height="273*"/>
         </Grid.RowDefinitions>
-        <StackPanel x:Name="horSp1" Orientation="Horizontal" Background="WhiteSmoke">
-            <Label x:Name="myGoods" Content="Мои товары" HorizontalAlignment="Left" Margin="44,0,0,0" VerticalAlignment="Center" FontSize="32" Height="52" Width="191"/>
-            <Button x:Name="btnAddProduct" Content="Добавить товар" HorizontalAlignment="Left" Margin="500,0,0,0" VerticalAlignment="Center" Width="191" Height="42" FontSize="24" Click="btnAddProduct_Click"/>
+        <StackPanel x:Name="horSp1" Orientation="Horizontal" Background="WhiteSmoke" Grid.Row="0">
+            <Label x:Name="myGoods" Content="Мои сообщества" HorizontalAlignment="Center" Margin="400,27,0,27" VerticalAlignment="Center" FontSize="32" Height="52" Width="275"/>
         </StackPanel>
-
+        <StackPanel x:Name="spGroups" Grid.Row="1">
+            <Label x:Name="titleGroups" FontSize="20">Выберите одно из своих сообществ:</Label>
+            <ListBox x:Name="lbGroupd"></ListBox>
+        </StackPanel>
 
     </Grid>
 </Window>
