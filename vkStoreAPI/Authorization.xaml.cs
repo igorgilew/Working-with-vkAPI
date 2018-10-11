@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.IO;
 
 namespace vkStoreAPI
 {
@@ -34,7 +35,16 @@ namespace vkStoreAPI
                     formMain.Owner = this;
                     this.Visibility = Visibility.Collapsed;                  
                     formMain.ShowDialog();
-                    browser.Source = request;
+                    //удаление скачанных картинок
+                    var dir = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory);
+                    var files = dir.GetFiles("logo*.jpg");
+                    foreach (var file in files)
+                    {
+                        File.Delete(file.FullName);
+                    }
+
+                    //browser.Source = request;
+                    browser.Navigate(request);
                 }
                 else
                 {
@@ -50,6 +60,15 @@ namespace vkStoreAPI
                 }
                 
             };
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            GC.Collect();
+            //File.Delete(AppDomain.CurrentDomain.BaseDirectory + "logo" + 1 + ".jpg");
+            //либо через регулярку удалять все файлы либо сделать из в отдельной папке и удалять всю папку
+
+            
         }
     }
 }

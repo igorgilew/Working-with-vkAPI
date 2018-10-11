@@ -5,19 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:vkStoreAPI"
         mc:Ignorable="d"
-        Title="vkGoods" Height="600" Width="1000" Closing="Window_Closing" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="vkGroupGoods" Height="600" Width="1000" Closing="Window_Closing" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Closed="Window_Closed">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="62*"/>
-            <RowDefinition Height="273*"/>
+            <RowDefinition Height="106*"/>
+            <RowDefinition Height="411*"/>
+            <RowDefinition Height="55*"/>
         </Grid.RowDefinitions>
         <StackPanel x:Name="horSp1" Orientation="Horizontal" Background="WhiteSmoke" Grid.Row="0">
-            <Label x:Name="myGoods" Content="Мои сообщества" HorizontalAlignment="Center" Margin="400,27,0,27" VerticalAlignment="Center" FontSize="32" Height="52" Width="275"/>
+            <Label x:Name="mainHeader" Content="Мои сообщества" HorizontalAlignment="Left" Margin="400,27,0,27" VerticalAlignment="Center" FontSize="32" Height="52" Width="Auto"/>
         </StackPanel>
         <StackPanel x:Name="spGroups" Grid.Row="1">
             <Label x:Name="titleGroups" FontSize="20">Выберите одно из своих сообществ:</Label>
-            <ListBox x:Name="lbGroupd"></ListBox>
+            <ListBox x:Name="lbGroupd" BorderThickness="0" MouseDoubleClick="lbGroupd_MouseDoubleClick"></ListBox>
         </StackPanel>
-
+        <StackPanel x:Name="spGroupsProducts" Grid.Row="1" Visibility="Collapsed">
+            <ListBox x:Name="lbGroupProducts" BorderThickness="0"></ListBox>
+        </StackPanel>
+        <Button x:Name="btnBack" Grid.Row="2" Width="100" Height="30" Margin="50, 0, 0, 0" HorizontalAlignment="Left" Visibility="Visible" IsEnabled="False" Click="btnBack_Click">Назад</Button>
     </Grid>
 </Window>
