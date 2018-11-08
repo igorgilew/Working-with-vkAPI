@@ -5,23 +5,29 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:vkStoreAPI"
         mc:Ignorable="d"
-        Title="vkGroupGoods" Height="600" Width="1000" Closing="Window_Closing" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Closed="Window_Closed">
+        Title="vkGroupGoods" Height="700" Width="1200" Closing="Window_Closing" ResizeMode="NoResize" WindowState="Maximized" WindowStartupLocation="CenterScreen" Closed="Window_Closed">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="106*"/>
-            <RowDefinition Height="411*"/>
+            <RowDefinition Height="184*"/>
             <RowDefinition Height="55*"/>
+            <RowDefinition Height="369*"/>
+            <RowDefinition Height="64*"/>
         </Grid.RowDefinitions>
         <StackPanel x:Name="horSp1" Orientation="Horizontal" Background="WhiteSmoke" Grid.Row="0">
-            <Label x:Name="mainHeader" Content="Мои сообщества" HorizontalAlignment="Left" Margin="400,27,0,27" VerticalAlignment="Center" FontSize="32" Height="52" Width="Auto"/>
+            <Label x:Name="mainHeader" Content="Мои сообщества" HorizontalAlignment="Left" Margin="400,80,0,79" VerticalAlignment="Top" FontSize="32" Height="52" Width="Auto"/>
         </StackPanel>
-        <StackPanel x:Name="spGroups" Grid.Row="1">
+        <StackPanel x:Name="spGroups" Grid.Row="2" Margin="0,11,0,0">
             <Label x:Name="titleGroups" FontSize="20">Выберите одно из своих сообществ:</Label>
             <ListBox x:Name="lbGroupd" BorderThickness="0" MouseDoubleClick="lbGroupd_MouseDoubleClick"></ListBox>
         </StackPanel>
-        <StackPanel x:Name="spGroupsProducts" Grid.Row="1" Visibility="Collapsed">
-            <ListBox x:Name="lbGroupProducts" BorderThickness="0"></ListBox>
+        <StackPanel x:Name="spGroupsProducts" Grid.Row="1" Visibility="Collapsed" Orientation="Horizontal" CanVerticallyScroll="True" Grid.RowSpan="2">
+            <ListBox x:Name="lbGroupProducts" Grid.Row="1" Height="400" Width="1000" HorizontalAlignment="Left" BorderThickness="0"></ListBox>
+            <StackPanel x:Name="spButtons" Grid.Row="1">
+                <Button x:Name="btnAdd" Margin="50, 50, 0, 0" Width="200" Height="40">Добавить товар</Button>
+                <Button x:Name="btnDel" Margin="50, 50, 0, 0" Width="200" Height="40" Click="btnDel_Click">Удалить товар</Button>
+                <Button x:Name="btnAlter" Margin="50, 50, 0, 0" Width="200" Height="40">Изменить товар</Button>
+            </StackPanel>
         </StackPanel>
-        <Button x:Name="btnBack" Grid.Row="2" Width="100" Height="30" Margin="50, 0, 0, 0" HorizontalAlignment="Left" Visibility="Visible" IsEnabled="False" Click="btnBack_Click">Назад</Button>
+        <Button x:Name="btnBack" Grid.Row="3" Width="100" Margin="50,22,0,22" HorizontalAlignment="Left" Visibility="Visible" IsEnabled="False" Click="btnBack_Click">Назад</Button>
     </Grid>
 </Window>

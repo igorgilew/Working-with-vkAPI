@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 using System.Net;
 using Newtonsoft.Json.Linq;
 using System.IO;
-using System.Collections;
+using System.Collections.Specialized;
 using System.Threading;
 
 namespace vkStoreAPI
@@ -119,11 +119,24 @@ namespace vkStoreAPI
             response.Close();
             return json;
         }
+        private string POSTRequest(string url, NameValueCollection parametrs)
+        {           
+            using (var webClient = new WebClient())
+            {                              
+                // Посылаем параметры на сервер
+                // Может быть ответ в виде массива байт
+                var response = webClient.UploadValues(url, parametrs);                
+                return Encoding.UTF8.GetString(response, 0, response.Length);
+            }     
+        }
         private string GetQuerryProducts(string group_id, string access_token)
         {
             return string.Format("https://api.vk.com/method/market.get?owner_id=-{0}&access_token={1}&v=5.85", group_id, access_token);
         }
-        
+        private string DeleteProduct(string group_id, string access_token, string item_id)
+        {
+            return string.Format("https://api.vk.com/method/market.delete?owner_id=-{0}&item_id={1}&access_token={2}&v=5.85", group_id, item_id, access_token);
+        }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             
@@ -137,22 +150,24 @@ namespace vkStoreAPI
             GC.Collect();
             
         }
-
+        string currentGroupId;
         private void lbGroupd_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
+        {            
             spGroupsProducts.Visibility = Visibility.Visible;
             spGroups.Visibility = Visibility.Collapsed;
             btnBack.IsEnabled = true;
             ListBoxItem selectedItem = (ListBoxItem)lbGroupd.SelectedItem;
-            var group = selectedItem.Tag as GroupSearchResult;           
+            var group = selectedItem.Tag as GroupSearchResult;
+            currentGroupId = group.id;      
             mainHeader.Content = "Товары сообщества " + group.name;
             mainHeader.Margin = new Thickness(300, 0, 0, 0);
+            
             LoadProducts(group);
         }
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
-            spGroupsProducts.Visibility = Visibility.Collapsed;
+            spGroupsProducts.Visibility = Visibility.Collapsed;            
             spGroups.Visibility = Visibility.Visible;
             btnBack.IsEnabled = false;
             mainHeader.Content = "Мои сообщества";
@@ -160,6 +175,7 @@ namespace vkStoreAPI
         }
         private void LoadProducts(GroupSearchResult group)
         {
+            lbGroupProducts.Items.Clear();
             //создаем запрос
             WebRequest request = WebRequest.Create(GetQuerryProducts(group.id, person.access_token));
             //получаем ответ в виде json-схемы
@@ -212,11 +228,29 @@ namespace vkStoreAPI
                     txtBlockCost.FontSize = 14;
                     txtBlockCost.Margin = new Thickness(20, 10, 0, 0);
 
+                    //var imgDel = new Image();
+                    //imgDel.Source = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "delete.png", UriKind.Absolute));
+                    //imgDel.Width = 30;
+                    //imgDel.Height = 30;
+
+                    //Image img_del = new Image();
+                    //img_del.Source = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "\\delete.png", UriKind.Absolute));
+                    //img_del.Width = 30;
+                    //img_del.Height = 30;
+
+                    //var btnDel = new Button();
+                    //btnDel.Width = 30;
+                    //btnDel.Height = 30;
+                    //btnDel.Content = img_del;
+                    //btnDel.HorizontalAlignment = HorizontalAlignment.Right;
+                    //btnDel.Margin = new Thickness(80, 0, 0, 0);
+
                     spDescr.Children.Add(txtBlockTitle);
                     spDescr.Children.Add(txtBlockDescr);
                     spDescr.Children.Add(txtBlockCost);
 
                     spItem.Children.Add(spDescr);
+                    //spItem.Children.Add(btnDel);
 
                     var item = new ListBoxItem();
                     item.Content = spItem;
@@ -224,11 +258,38 @@ namespace vkStoreAPI
                     item.BorderThickness = new Thickness(1);
                     item.BorderBrush = new SolidColorBrush(Colors.Black);
                     item.Margin = new Thickness(0, 2, 0, 0);
-                    item.Tag = group;
+                    item.Tag = product;
                     lbGroupProducts.Items.Add(item);
 
                 }
             }
+        }
+
+        private void btnDel_Click(object sender, RoutedEventArgs e)
+        {
+            var curItem = lbGroupProducts.SelectedItem as ListBoxItem;
+            var curProduct = curItem.Tag as Product;
+            //создаем запрос
+            //WebRequest request = WebRequest.Create(DeleteProduct(currentGroupId, person.access_token, curProduct.id));
+            ////получаем ответ в виде json-схемы
+            //string jsonResponse = GetResponseJson(request, "POST");
+            string url = "https://api.vk.com/method/market.delete?";
+            NameValueCollection pairs = new NameValueCollection();
+            pairs.Add("owner_id", "-" + currentGroupId);
+            pairs.Add("item_id", curProduct.id);
+            pairs.Add("access_token", person.access_token);
+            pairs.Add("v", "5.85");
+                
+            var res =  POSTRequest(url, pairs);
+            if(string.Equals(res, "{\"response\":1}"))
+            {
+                lbGroupProducts.Items.Remove(curItem);
+            }
+            else
+            {
+                MessageBox.Show("Ошибка. Не удалось удалить товар");
+            }
+            
         }
     }
 }
