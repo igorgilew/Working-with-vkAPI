@@ -13,5 +13,12 @@ namespace vkStoreAPI
         public string description;
         public string cost; //cost;
         public string thumb_photo;
+        public Product(string id, string title, string description, string cost)
+        {
+            this.id = id;
+            this.title = title;
+            this.description = description;
+            this.cost = cost;
+        }
     }
 }

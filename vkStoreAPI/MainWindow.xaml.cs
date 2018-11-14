@@ -18,6 +18,7 @@ using System.IO;
 using System.Collections.Specialized;
 using System.Threading;
 
+
 namespace vkStoreAPI
 {
     /// <summary>
@@ -36,7 +37,7 @@ namespace vkStoreAPI
             this.urlWithToken = urlWithToken;
             this.fw_a = fw_a;
             person = new User(urlWithToken);
-
+            
             BuildListBoxGroups();
                        
             //короче оказалось что апи работает только с товарами сообществ, поэтому предлагается
@@ -47,9 +48,9 @@ namespace vkStoreAPI
         private void BuildListBoxGroups()
         {
             //создаем запрос
-            WebRequest request = WebRequest.Create(GetQuerryGroups(person.id, person.access_token));
+            WebRequest request = WebRequest.Create(staticRequestResponse.GetQuerryGroups(person.id, person.access_token));
             //получаем ответ в виде json-схемы
-            string jsonResponse = GetResponseJson(request, "GET");
+            string jsonResponse = staticRequestResponse.GetResponseJson(request);
             
             JObject groupSearch = JObject.Parse(jsonResponse);
             IList<JToken> results = groupSearch["response"]["items"].Children().ToList();
@@ -99,44 +100,44 @@ namespace vkStoreAPI
             }
 
         }
-        private string GetQuerryGroups(string user_id, string access_token)
-        {
-            return string.Format("https://api.vk.com/method/groups.get?user_id={0}&extended=1&filter=admin&access_token={1}&v=5.85", user_id, access_token);
-        }
-        private string GetResponseJson(WebRequest request, string method)
-        {
-            string json = "";
-            request.Method = method;
-            //выполняем запрос и получаем ответ
-            WebResponse response = request.GetResponse();
-            using (Stream stream = response.GetResponseStream())
-            {
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    json = reader.ReadLine();                    
-                }
-            }
-            response.Close();
-            return json;
-        }
-        private string POSTRequest(string url, NameValueCollection parametrs)
-        {           
-            using (var webClient = new WebClient())
-            {                              
-                // Посылаем параметры на сервер
-                // Может быть ответ в виде массива байт
-                var response = webClient.UploadValues(url, parametrs);                
-                return Encoding.UTF8.GetString(response, 0, response.Length);
-            }     
-        }
-        private string GetQuerryProducts(string group_id, string access_token)
-        {
-            return string.Format("https://api.vk.com/method/market.get?owner_id=-{0}&access_token={1}&v=5.85", group_id, access_token);
-        }
-        private string DeleteProduct(string group_id, string access_token, string item_id)
-        {
-            return string.Format("https://api.vk.com/method/market.delete?owner_id=-{0}&item_id={1}&access_token={2}&v=5.85", group_id, item_id, access_token);
-        }
+        //private string GetQuerryGroups(string user_id, string access_token)
+        //{
+        //    return string.Format("https://api.vk.com/method/groups.get?user_id={0}&extended=1&filter=admin&access_token={1}&v=5.87", user_id, access_token);
+        //}
+        //private string GetResponseJson(WebRequest request)
+        //{
+        //    string json = "";
+        //    request.Method = "GET";
+        //    //выполняем запрос и получаем ответ
+        //    WebResponse response = request.GetResponse();
+        //    using (Stream stream = response.GetResponseStream())
+        //    {
+        //        using (StreamReader reader = new StreamReader(stream))
+        //        {
+        //            json = reader.ReadLine();                    
+        //        }
+        //    }
+        //    response.Close();
+        //    return json;
+        //}
+        //private string POSTRequest(string url, NameValueCollection parametrs)
+        //{           
+        //    using (var webClient = new WebClient())
+        //    {                              
+        //        // Посылаем параметры на сервер
+        //        // Может быть ответ в виде массива байт
+        //        var response = webClient.UploadValues(url, parametrs);                
+        //        return Encoding.UTF8.GetString(response, 0, response.Length);
+        //    }     
+        //}
+        //private string GetQuerryProducts(string group_id, string access_token)
+        //{
+        //    return string.Format("https://api.vk.com/method/market.get?owner_id=-{0}&access_token={1}&v=5.87", group_id, access_token);
+        //}
+        //private string DeleteProduct(string group_id, string access_token, string item_id)
+        //{
+        //    return string.Format("https://api.vk.com/method/market.delete?owner_id=-{0}&item_id={1}&access_token={2}&v=5.87", group_id, item_id, access_token);
+        //}
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             
@@ -177,9 +178,10 @@ namespace vkStoreAPI
         {
             lbGroupProducts.Items.Clear();
             //создаем запрос
-            WebRequest request = WebRequest.Create(GetQuerryProducts(group.id, person.access_token));
+            
+            WebRequest request = WebRequest.Create(staticRequestResponse.GetQuerryProducts(group.id, person.access_token));
             //получаем ответ в виде json-схемы
-            string jsonResponse = GetResponseJson(request, "GET");
+            string jsonResponse = staticRequestResponse.GetResponseJson(request);
 
             JObject productSearch = JObject.Parse(jsonResponse);
             
@@ -264,7 +266,7 @@ namespace vkStoreAPI
                 }
             }
         }
-
+        
         private void btnDel_Click(object sender, RoutedEventArgs e)
         {
             var curItem = lbGroupProducts.SelectedItem as ListBoxItem;
@@ -278,9 +280,9 @@ namespace vkStoreAPI
             pairs.Add("owner_id", "-" + currentGroupId);
             pairs.Add("item_id", curProduct.id);
             pairs.Add("access_token", person.access_token);
-            pairs.Add("v", "5.85");
+            pairs.Add("v", "5.87");
                 
-            var res =  POSTRequest(url, pairs);
+            var res = staticRequestResponse.POSTRequest(url, pairs);
             if(string.Equals(res, "{\"response\":1}"))
             {
                 lbGroupProducts.Items.Remove(curItem);
@@ -290,6 +292,13 @@ namespace vkStoreAPI
                 MessageBox.Show("Ошибка. Не удалось удалить товар");
             }
             
+        }
+
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            AddProduct addWindow = new AddProduct(person.access_token, currentGroupId, this);
+            addWindow.Owner = this;
+            addWindow.ShowDialog();
         }
     }
 }

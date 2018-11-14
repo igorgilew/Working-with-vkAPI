@@ -1,0 +1,25 @@
+﻿<Window x:Class="vkStoreAPI.AddProduct"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:vkStoreAPI"
+        mc:Ignorable="d"
+        Title="AddProduct" Height="650" Width="600" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <TextBox x:Name="txtBoxName" HorizontalAlignment="Left" Height="41" Margin="40,70,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="312"/>
+        <TextBlock x:Name="tbName" HorizontalAlignment="Left" Margin="40,38,0,0" TextWrapping="Wrap" FontSize="18" Text="Название товара" VerticalAlignment="Top"/>
+        <TextBlock x:Name="tbDescr" HorizontalAlignment="Left" Margin="40,137,0,0" TextWrapping="Wrap" Text="Описание товара" FontSize="18" VerticalAlignment="Top"/>
+        <RichTextBox x:Name="rtbDescr" HorizontalAlignment="Left" Height="123" Margin="43,170,0,0" VerticalAlignment="Top" Width="309">
+        </RichTextBox>
+
+        <Image x:Name="imgPhoto" HorizontalAlignment="Left" Height="200" Margin="307,332,0,0" VerticalAlignment="Top" Width="200" Source="market_camera.png"/>
+        <TextBlock x:Name="textBlock2" HorizontalAlignment="Left" Margin="43,332,0,0" TextWrapping="Wrap" Text="Фотография товара" FontSize="18" VerticalAlignment="Top"/>
+        <Button x:Name="btnPhoto" Content="Прикрепить изображение" HorizontalAlignment="Left" Margin="43,387,0,0" VerticalAlignment="Top" Width="161" Height="28" Click="button_Click"/>
+
+        <Button x:Name="btnCreate" Content="Создать товар" HorizontalAlignment="Left" Margin="307,558,0,0" VerticalAlignment="Top" Width="200" Height="39" Click="btnCreate_Click"/>
+        <TextBlock x:Name="tbCost" HorizontalAlignment="Left" Margin="424,137,0,0" TextWrapping="Wrap" Text="Цена" FontSize="18" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtBoxCost" HorizontalAlignment="Left" Height="30" Margin="424,170,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="83"/>
+
+    </Grid>
+</Window>

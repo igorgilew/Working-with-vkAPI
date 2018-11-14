@@ -23,7 +23,7 @@ namespace vkStoreAPI
         public Authorization()
         {
             InitializeComponent();
-            Uri request = new Uri(@"https://oauth.vk.com/authorize?client_id=6713924&display=page&redirect_uri=https://oauth.vk.com/blank.html&scope=market,group&response_type=token&v=5.85&state=123456&revoke=1");            
+            Uri request = new Uri(@"https://oauth.vk.com/authorize?client_id=6713924&display=page&redirect_uri=https://oauth.vk.com/blank.html&scope=market,group,photos&response_type=token&v=5.85&state=123456&revoke=1");            
             browser.Source = request;
             
             browser.LoadCompleted += (sender, e) =>
