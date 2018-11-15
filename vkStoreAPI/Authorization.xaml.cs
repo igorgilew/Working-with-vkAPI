@@ -23,7 +23,7 @@ namespace vkStoreAPI
         public Authorization()
         {
             InitializeComponent();
-            Uri request = new Uri(@"https://oauth.vk.com/authorize?client_id=6713924&display=page&redirect_uri=https://oauth.vk.com/blank.html&scope=market,group,photos&response_type=token&v=5.85&state=123456&revoke=1");            
+            Uri request = new Uri(@"https://oauth.vk.com/authorize?client_id=6713924&display=page&redirect_uri=https://m.vk.com/&scope=market,group,photos&response_type=token&v=5.85&state=123456&revoke=0");            
             browser.Source = request;
             
             browser.LoadCompleted += (sender, e) =>
@@ -33,22 +33,24 @@ namespace vkStoreAPI
                 {
                     var formMain = new MainWindow(str, this);
                     formMain.Owner = this;
-                    this.Visibility = Visibility.Collapsed;                  
-                    formMain.ShowDialog();
-                    //удаление скачанных картинок
-                    var dir = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory);
-                    var files = dir.GetFiles("logo*.jpg");
-                    foreach (var file in files)
-                    {
-                        File.Delete(file.FullName);
-                    }
+                    this.Visibility = Visibility.Collapsed;
+                    //this.Close();
+                    //formMain.ShowDialog();
 
+                    //удаление скачанных картинок
+                    //var dir = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory);
+                    //var files = dir.GetFiles("logo*.jpg");
+                    //foreach (var file in files)
+                    //{
+                    //    File.Delete(file.FullName);
+                    //}
+                    formMain.Show();
                     //browser.Source = request;
-                    browser.Navigate(request);
+                    //browser.Navigate(request);
                 }
                 else
                 {
-                    if(!str.Equals(request.ToString()) && !str.Equals("http://vk.com/"))
+                    if(!str.Equals(request.ToString()) && !str.Equals("https://vk.com/"))
                     {
                         //browser.Navigate(@"https://oauth.vk.com/authorize?client_id=6713924&display=page&redirect_uri=https://oauth.vk.com/blank.html&scope=market&response_type=token&v=5.85&state=123456&revoke=1");
                         browser.Navigate(request);
@@ -67,8 +69,14 @@ namespace vkStoreAPI
             GC.Collect();
             //File.Delete(AppDomain.CurrentDomain.BaseDirectory + "logo" + 1 + ".jpg");
             //либо через регулярку удалять все файлы либо сделать из в отдельной папке и удалять всю папку
+            //удаление скачанных картинок
+            var dir = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory);
+            var files = dir.GetFiles("logo*.jpg");
+            foreach (var file in files)
+            {
+                File.Delete(file.FullName);
+            }
 
-            
         }
     }
 }

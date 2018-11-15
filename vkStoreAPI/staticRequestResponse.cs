@@ -53,7 +53,7 @@ namespace vkStoreAPI
         }
         public static string GetQuerryProducts(string group_id, string access_token)
         {
-            return string.Format("https://api.vk.com/method/market.get?owner_id=-{0}&access_token={1}&v=5.87", group_id, access_token);
+            return string.Format("https://api.vk.com/method/market.get?owner_id=-{0}&extended=1&access_token={1}&v=5.87", group_id, access_token);
         }
         public static string DeleteProduct(string group_id, string access_token, string item_id)
         {
@@ -83,6 +83,10 @@ namespace vkStoreAPI
         public static string GetMarketAdd(string groupId, string access_token, string name, string description, string price, string main_photo_id)
         {
             return string.Format("https://api.vk.com/method/market.add?owner_id=-{0}&name={1}&description={2}&category_id=1&price={3}&main_photo_id={4}&access_token={5}&v=5.87", groupId, name, description, price, main_photo_id, access_token);
+        }
+        public static string GetMarketEdit(string groupId, string access_token, string name, string description, string price, string main_photo_id, string item_id)
+        {
+            return string.Format("https://api.vk.com/method/market.edit?owner_id=-{0}&item_id={6}&name={1}&description={2}&category_id=1&price={3}&main_photo_id={4}&access_token={5}&v=5.87", groupId, name, description, price, main_photo_id, access_token, item_id);
         }
     }
 }

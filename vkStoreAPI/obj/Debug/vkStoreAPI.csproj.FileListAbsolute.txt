@@ -18,3 +18,5 @@ C:\10 триместр\Распределенные приложения\ЛР1\v
 C:\10 триместр\Распределенные приложения\ЛР1\vkStoreAPI\vkStoreAPI\obj\Debug\Authorization.baml
 C:\10 триместр\Распределенные приложения\ЛР1\vkStoreAPI\vkStoreAPI\obj\Debug\AddProduct.g.cs
 C:\10 триместр\Распределенные приложения\ЛР1\vkStoreAPI\vkStoreAPI\obj\Debug\AddProduct.baml
+C:\10 триместр\Распределенные приложения\ЛР1\vkStoreAPI\vkStoreAPI\obj\Debug\AlterProduct.g.cs
+C:\10 триместр\Распределенные приложения\ЛР1\vkStoreAPI\vkStoreAPI\obj\Debug\AlterProduct.baml

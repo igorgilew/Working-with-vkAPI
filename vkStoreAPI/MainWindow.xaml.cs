@@ -100,56 +100,17 @@ namespace vkStoreAPI
             }
 
         }
-        //private string GetQuerryGroups(string user_id, string access_token)
-        //{
-        //    return string.Format("https://api.vk.com/method/groups.get?user_id={0}&extended=1&filter=admin&access_token={1}&v=5.87", user_id, access_token);
-        //}
-        //private string GetResponseJson(WebRequest request)
-        //{
-        //    string json = "";
-        //    request.Method = "GET";
-        //    //выполняем запрос и получаем ответ
-        //    WebResponse response = request.GetResponse();
-        //    using (Stream stream = response.GetResponseStream())
-        //    {
-        //        using (StreamReader reader = new StreamReader(stream))
-        //        {
-        //            json = reader.ReadLine();                    
-        //        }
-        //    }
-        //    response.Close();
-        //    return json;
-        //}
-        //private string POSTRequest(string url, NameValueCollection parametrs)
-        //{           
-        //    using (var webClient = new WebClient())
-        //    {                              
-        //        // Посылаем параметры на сервер
-        //        // Может быть ответ в виде массива байт
-        //        var response = webClient.UploadValues(url, parametrs);                
-        //        return Encoding.UTF8.GetString(response, 0, response.Length);
-        //    }     
-        //}
-        //private string GetQuerryProducts(string group_id, string access_token)
-        //{
-        //    return string.Format("https://api.vk.com/method/market.get?owner_id=-{0}&access_token={1}&v=5.87", group_id, access_token);
-        //}
-        //private string DeleteProduct(string group_id, string access_token, string item_id)
-        //{
-        //    return string.Format("https://api.vk.com/method/market.delete?owner_id=-{0}&item_id={1}&access_token={2}&v=5.87", group_id, item_id, access_token);
-        //}
+        
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            
-            e.Cancel = false;
-            fw_a.Visibility = Visibility.Visible;            
+            //e.Cancel = false;
+            //fw_a.Visibility = Visibility.Visible;            
         }
 
         private void Window_Closed(object sender, EventArgs e)
-        {        
-            
+        {                    
             GC.Collect();
-            
+            fw_a.Close();
         }
         string currentGroupId;
         private void lbGroupd_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -193,6 +154,10 @@ namespace vkStoreAPI
                 
                 productSearchResult.Add(result.ToObject<Product>());
                 productSearchResult.Last().cost = result["price"]["text"].ToString();
+                JArray jA = JArray.Parse(result["photos"].ToString());
+                JObject jO = JObject.Parse(jA[0].ToString());
+                productSearchResult.Last().photoID = jO["id"].ToString();
+
             }
             if(productSearchResult.Count>0)
             {
@@ -299,6 +264,13 @@ namespace vkStoreAPI
             AddProduct addWindow = new AddProduct(person.access_token, currentGroupId, this);
             addWindow.Owner = this;
             addWindow.ShowDialog();
+        }
+
+        private void btnAlter_Click(object sender, RoutedEventArgs e)
+        {
+            AlterProduct alterWindow = new AlterProduct(this, (ListBoxItem)lbGroupProducts.SelectedItem, person.access_token, currentGroupId);
+            alterWindow.Owner = this;
+            alterWindow.ShowDialog();
         }
     }
 }

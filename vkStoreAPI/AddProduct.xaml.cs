@@ -87,7 +87,7 @@ namespace vkStoreAPI
                 JObject res = JObject.Parse(staticRequestResponse.GetResponseJson(request));
                 //MessageBox.Show(res["response"]["market_item_id"].ToString());
 
-                var product = new Product(res["response"]["market_item_id"].ToString(), txtBoxName.Text, GetText(rtbDescr), txtBoxCost.Text);
+                var product = new Product(res["response"]["market_item_id"].ToString(), txtBoxName.Text, GetText(rtbDescr), txtBoxCost.Text, pj["id"].ToString());
 
                 var spItem = new StackPanel() { Orientation = Orientation.Horizontal };
                 var spDescr = new StackPanel();

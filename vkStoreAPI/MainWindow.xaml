@@ -25,7 +25,7 @@
             <StackPanel x:Name="spButtons" Grid.Row="1">
                 <Button x:Name="btnAdd" Margin="50, 50, 0, 0" Width="200" Height="40" Click="btnAdd_Click">Добавить товар</Button>
                 <Button x:Name="btnDel" Margin="50, 50, 0, 0" Width="200" Height="40" Click="btnDel_Click">Удалить товар</Button>
-                <Button x:Name="btnAlter" Margin="50, 50, 0, 0" Width="200" Height="40">Изменить товар</Button>
+                <Button x:Name="btnAlter" Margin="50, 50, 0, 0" Width="200" Height="40" Click="btnAlter_Click" >Изменить товар</Button>
             </StackPanel>
         </StackPanel>
         <Button x:Name="btnBack" Grid.Row="3" Width="100" Margin="50,22,0,22" HorizontalAlignment="Left" Visibility="Visible" IsEnabled="False" Click="btnBack_Click">Назад</Button>
